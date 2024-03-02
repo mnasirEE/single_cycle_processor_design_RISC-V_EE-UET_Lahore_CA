@@ -9,7 +9,7 @@ always @(*)
        2'b00 : result_out = operand_a + operand_b;
        2'b01 : result_out = operand_a - operand_b;
        2'b10 : result_out = $signed(operand_a) + $signed(operand_b);
-       2'b11 : result_out = $signed(operand_a) + $signed(operand_b);
+       2'b11 : result_out = $signed(operand_a) - $signed(operand_b);
        default: result_out = operand_a + operand_b;
     endcase
     
