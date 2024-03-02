@@ -4,16 +4,16 @@ module data_memory (
 );
 
     // reg [31:0] ex2_memory [0:31]; // Memory for reading from file
-    reg [31:0] ex1_memory [0:31]; // Memory for writing to file
+    reg [31:0] ram_memory [31:0]; // Memory for writing to file
     
     // Reading from file
     initial begin
-        $readmemh("datamem.txt", ex1_memory);
+        $readmemh("read.txt", ram_memory);
     end
     
     // Writing to file on positive clock edge
     always_ff @ (posedge clk) begin
-        $writememh("ex2.txt", ex1_memory);
+        $writememh("write.txt", ram_memory);
     end
 
 endmodule
