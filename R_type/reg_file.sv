@@ -1,5 +1,6 @@
 module reg_file #(parameter reg_addr_width = 5, reg_data_width = 32, reg_depth = 4;)
-    ( input logic [reg_addr_width -1:0] wr_addr, r_addr1, r_addr2, wr_data,
+    ( input logic [reg_addr_width -1:0] wr_addr, r_addr1, r_addr2,
+    input logic [reg_data_width - 1:0] wr_data,
     output logic [reg_data_width - 1:0] r_data1, r_data2
 );
 
