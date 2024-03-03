@@ -7,9 +7,9 @@ module program_counter #(parameter counter_width = 32 ;)
 
 always_ff @(posedge clk, posedge reset)
     if (reset)
-        pc = 0;
+        pc <= 0;
     else
-        pc = pc + 1;
+        pc <= pc + 4;
 
 
     

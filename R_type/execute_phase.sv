@@ -1,6 +1,7 @@
 module execute_phase #(parameter data_width = 32 ;)
     (
     input logic [data_width - 1:0] input1, input2,
+    input logic [3:0] alu_op,
     output logic [data_width - 1 :0] alu_result
 );
 

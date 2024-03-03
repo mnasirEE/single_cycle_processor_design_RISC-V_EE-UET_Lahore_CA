@@ -7,7 +7,7 @@ wire reset1;
 wire clk1;
 program_counter pc1 ((.pc)PC,(.reset)reset1, (.clk)clk1 );
 
-instruction_memory((.byte_address)PC, (.instruction)instr_out);
+instruction_memory((.address)PC, (.instruction)instr_out);
 
     
 endmodule
