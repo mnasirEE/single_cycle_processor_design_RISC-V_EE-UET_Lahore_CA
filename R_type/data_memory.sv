@@ -17,3 +17,11 @@ module data_memory (
     end
 
 endmodule
+
+// if (write_enable) begin
+//                 // Write data to memory
+//                 memory[byte_address] <= data_in[7:0];
+//                 memory[byte_address + 1] <= data_in[15:8];
+//                 memory[byte_address + 2] <= data_in[23:16];
+//                 memory[byte_address + 3] <= data_in[31:24];
+//             end
