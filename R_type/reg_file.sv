@@ -8,6 +8,8 @@ module reg_file #(parameter reg_addr_width = 5, reg_data_width = 32, reg_depth =
 reg [reg_data_width - 1:0] reg_file_16 [reg_depth - 1:0];
 
 assign reg_file_16[0] = 0; // x0 = 0 hard wire
+assign reg_file_16[3] = 5;
+assign reg_file_16[4] = 7;
 
 // reading data asynchrounous
 initial begin
