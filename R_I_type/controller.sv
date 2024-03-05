@@ -1,7 +1,8 @@
-module controller #(parameter instr_width = 32, alu_op_width = 4;)
+module controller #(parameter instr_width = 32, alu_op_width = 5;)
     ( input logic [instr_width - 1:0] instruction,
     output logic [alu_op_width -1:0] alu_op,
-    output logic regfile_write_enable
+    output logic regfile_write_enable,
+    output logic sel_b
     
 );
 
@@ -9,19 +10,21 @@ logic [6:0] opcode;
 logic [2:0] func3;
 logic [6:0] func7;
 assign opcode = instruction[6:0];
+assign func3 = [14:12];
+assign func7 = [31:25];
 
-logic [3:0] add, sub, sll, slt, sltu, Xor, srl, sra, or, And;
+logic [5:0] add, sub, sll, slt, sltu, Xor, srl, sra, or, And;
 initial begin
-    add = 0000;
-    sub = 0001;
-    sll = 0010;
-    slt = 0011;
-    sltu = 0100;
-    Xor = 0101;
-    srl = 0110;
-    sra = 0111;
-    or = 1000;
-    And = 1001;
+    add = 00000;
+    sub = 00001;
+    sll = 00010;
+    slt = 00011;
+    sltu = 00100;
+    Xor = 00101;
+    srl = 00110;
+    sra = 00111;
+    or = 01000;
+    And = 01001;
 end
 
 // generating alu_op signals
@@ -53,6 +56,12 @@ always @ (*)
                 
                 default: 
             endcase
+        7'b0000011 : begin
+            case (func3)
+                : 
+                default: 
+            endcase
+        end
         end
         default: 
     endcase
@@ -62,3 +71,5 @@ always_ff @(negedge clk)
     regfile_write_enable <= 1;
     
 endmodule
+
+// controller c (.instruction(), .alu_op(), .regfile_write_enable(), .sel_b());

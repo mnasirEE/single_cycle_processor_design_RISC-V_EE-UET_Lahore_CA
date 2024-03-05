@@ -5,9 +5,9 @@ module instruction_fetch_phase #(parameter addr_instr_width = 32;)
 
 wire reset1;
 wire clk1;
-program_counter pc1 ((.pc)PC,(.reset)reset1, (.clk)clk1 );
+program_counter pc1 (.pc(PC),.reset(reset1), .clk(clk1) );
 
-instruction_memory((.address)PC, (.instruction)instr_out);
+instruction_memory(.address(PC), .instruction(instr_out));
 
     
 endmodule

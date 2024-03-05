@@ -1,3 +1,5 @@
+
+// controller c1 (.instruction(), .alu_op(), .regfile_write_enable());
 module controller #(parameter instr_width = 32, alu_op_width = 4;)
     ( input logic [instr_width - 1:0] instruction,
     output logic [alu_op_width -1:0] alu_op,
@@ -12,19 +14,20 @@ assign opcode = instruction[6:0];
 
 logic [3:0] add, sub, sll, slt, sltu, Xor, srl, sra, or, And;
 initial begin
-    add = 0000;
-    sub = 0001;
-    sll = 0010;
-    slt = 0011;
-    sltu = 0100;
-    Xor = 0101;
-    srl = 0110;
-    sra = 0111;
-    or = 1000;
-    And = 1001;
+    add = 4'b0000;
+    sub = 4'b0001;
+    sll = 4'b0010;
+    slt = 4'b0011;
+    sltu = 4'b0100;
+    Xor = 4'b0101;
+    srl = 4'b0110;
+    sra = 4'b0111;
+    or = 4'b1000;
+    And = 4'b1001;
 end
 
-// generating alu_op signals
+// generating alu_op signals 
+// R_type
 always @ (*)
     case (opcode)
         7'b0110011 : begin
@@ -33,7 +36,7 @@ always @ (*)
                     case (func7)
                         7'b0000000: alu_op = add;
                         7'b0100000; alu_op = sub; 
-                        default: 
+                        default: alu_op = 4'b0000;
                     endcase
                 3'b001 : alu_op = sll; // shift left logical
                 3'b010 : alu_op = slt; // set less than
@@ -45,20 +48,23 @@ always @ (*)
                     case (func7)
                         7'b0000000: alu_op = srl; // shift right logical
                         7'b0100000: alu_op = sra; // shift right arithmetic
-                        default: 
+                        default: alu_op = 4'b0000;
                     endcase
                 3'b110 : alu_op = or; // or
                 3'b111 : alu_op = And; // and
                 end
                 
-                default: 
+                default: alu_op = 4'b0000;
             endcase
         end
-        default: 
+        default: alu_op = 4'b0000;
     endcase
 
-// generating write back enable signal   
-always_ff @(negedge clk)
-    regfile_write_enable <= 1;
+always @(*) begin 
+    case (opcode)
+        7'b0110011: regfile_write_enable = 1'b1; // R_type
+        default: regfile_write_enable = 1'b0; // for not write back instructions
+    endcase
+end
     
 endmodule

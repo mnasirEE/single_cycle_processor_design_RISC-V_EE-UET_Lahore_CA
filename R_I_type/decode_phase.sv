@@ -6,6 +6,6 @@ module decode_phase #(parameter addr_width = 5, data_width = 32;)
     output logic [data_width - 1:0] source_reg1, source_reg2
 );
 
-reg_file rf1 ((.wr_addr) addr_wr, (.r_addr1) addr_rs1, (.r_addr2) addr_rs2, (.wr_data) destination_reg, (.write_back_en) wr_back_en, (.r_data1) source_reg1, (.r_data2) source_reg2);
+reg_file rf1 (.wr_addr(addr_wr), .r_addr1(addr_rs1), .r_addr2(addr_rs2), .wr_data (destination_reg), .write_back_en (wr_back_en), .r_data1 (source_reg1), .r_data2 (source_reg2));
     
 endmodule

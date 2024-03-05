@@ -5,7 +5,7 @@ module execute_phase #(parameter data_width = 32 ;)
     output logic [data_width - 1 :0] alu_result
 );
 
-alu a1 ((.operand_a) input1, (.operand_b) input2, (.select_op) alu_op, (.result_out) alu_result);
+alu a1 (.operand_a(input1), .operand_b (input2), .select_op(alu_op), .result_out(alu_result));
 
     
 endmodule
