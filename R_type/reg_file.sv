@@ -15,9 +15,10 @@ initial begin
     r_data2 = reg_file_16[r_addr2];
 end
 
-initial begin
-    if (negedge clk, posedge write_back_en)
-        reg_file_16[wr_addr] <= wr_data;
+always_ff @ (negedge clk, posedge write_back_en) begin
+    if (write_back_en)
+        reg_file_16[wr_addr] <= wr_data; 
+    
 end
     
 endmodule
