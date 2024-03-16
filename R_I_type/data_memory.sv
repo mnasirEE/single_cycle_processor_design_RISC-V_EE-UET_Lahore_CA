@@ -13,17 +13,20 @@ module data_memory #(parameter addr_data_width = 32, memory_width = 8, memory_he
 // creating 2kB data memory
 reg [memory_width - 1:0] data_mem [0:memory_height - 1];
 
+
 always @(*) begin
+    // reading data from text file using $readmemh built in function in system verilog
     $readmemh("read_from.txt", data_mem);
     
 end
 
 always @(*) begin
     if (r_en) begin
-        data_out[7:0] = data_memory[addr];
-        data_out[15:8] = data_memory[addr + 1]; // suppose up stack
-        data_out[23:16] = data_memory[addr + 1];
-        data_out[31:24] = data_memory[addr + 1];
+        // suppose up stack
+        data_out[7:0] = data_memory[addr]; // 1st byte - LSB
+        data_out[15:8] = data_memory[addr + 1]; // 2nd byte
+        data_out[23:16] = data_memory[addr + 1]; // 3rd byte
+        data_out[31:24] = data_memory[addr + 1]; // 4th byte - MSB
     end
 end
 
