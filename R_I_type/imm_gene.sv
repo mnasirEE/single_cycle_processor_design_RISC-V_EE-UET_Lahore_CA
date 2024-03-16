@@ -1,11 +1,11 @@
 module imm_gene (
     input logic [31:0] inst,
-    output logic [11:0] imm
+    output logic [31:0] imm_out
 );
 
 logic [6:0] opcode;
 assign opcode = inst[6:0];
-
+logic [11:0] imm;
 
 always @(*) begin
     case (opcode)
@@ -14,7 +14,18 @@ always @(*) begin
         default: 
     endcase
 end
+
+assign imm_out[11:0] = imm;
+// sign extension
+always @(*) begin
+    if (imm[11] == 0) begin
+        imm_out[31:12] = 20'h00000;
+    end
+    else begin
+        imm_out[31:12] = 20'bFFFFF;
+    end
+end
      
 endmodule
 
-// imm(.inst(), .imm());
+// imm_gene immg1 (.inst(), .imm_out());
