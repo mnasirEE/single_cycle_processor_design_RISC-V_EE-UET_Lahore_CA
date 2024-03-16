@@ -1,12 +1,13 @@
 
 // controller c1 (.instruction(), .alu_op(), .regfile_write_enable());
 module controller #(parameter instr_width = 32, alu_op_width = 4)
-    ( input logic [instr_width - 1:0] instruction,
-    output logic [alu_op_width -1:0] alu_op,
-    output logic regfile_write_enable
+    ( input logic [instr_width - 1:0] instruction, // 32bit instruction - input port
+    output logic [alu_op_width -1:0] alu_op, // alu operation selection
+    output logic regfile_write_enable,       // write enable signal for regfile
+    output logic sel_bw_imm_rs2 // select between imm and rs2
     
 );
-
+// type of alu operation is selected by opcode, func3 and func7
 logic [6:0] opcode;
 logic [2:0] func3;
 logic [6:0] func7;
@@ -14,18 +15,20 @@ assign opcode = instruction[6:0];
 assign func3 = instruction[14:12];
 assign func7 = instruction[31:25];
 
-logic [3:0] add;
-logic [3:0] sub;
-logic [3:0] sll;
-logic [3:0] slt;
-logic [3:0] sltu;
-logic [3:0] Xor;
-logic [3:0] srl;
-logic [3:0] sra;
-logic [3:0] OR;
-logic [3:0] And;
+// Arithmetic and logical operations
+// R_type operations - 10 I_type operations 9
+logic [3:0] add; // addition - add = addi
+logic [3:0] sub; // subtraction - sub !=subi as there is no subi operation in I_format
+logic [3:0] sll; // shift left logical - sll = slli - zeros extention
+logic [3:0] slt; // set less than - signed by default- slt = slti
+logic [3:0] sltu; // set less than unsigned - sltu = sltui
+logic [3:0] Xor; // exclusive or gate/operation - xor = xori
+logic [3:0] srl; // shift right logical - srl = srli - zeros extension
+logic [3:0] sra; // shift right arithmetic - sra = srai
+logic [3:0] OR; // or gate/operation - or = ori
+logic [3:0] And; // and gate/operation - and = andi
 
-assign    add = 4'b0000;
+assign    add = 4'b0000; 
 assign    sub = 4'b0001;
 assign    sll = 4'b0010;
 assign    slt = 4'b0011;
@@ -78,5 +81,58 @@ always @(*) begin
         default: regfile_write_enable = 1'b0; // for not write back instructions
     endcase
 end
+
+// I_type - generating alu_op signals 
+// for load instructions alu op = addi = add
+always @(*) begin
+    case (opcode)
+    // load instructions - 5
+        7'b0000011 : begin
+            case (func3)
+                3'b000: alu_op = add; // addi - load byte - lb -func3 = 0
+                3'b001: alu_op = add; // addi - load half word - lh - func3 = 1
+                3'b010: alu_op = add; // addi - load word - lw - func3 = 2
+                3'b100: alu_op = add; // addi - load byte unsigned  - lbu - func3 = 4
+                3'b101: alu_op = add; // addi - load halfword unsigned - lhu -func3 = 5
+                default: alu_op = add; // addi load word
+            endcase
+        end
+    // arithmetic and logical instructions - 9
+        7'b0010011 : begin
+            case (func3)
+                3'b000: alu_op = add; // add = addi   -func3 = 0
+                3'b001: alu_op = sll; //sll = slli  - func3 = 1
+                3'b010: alu_op = slt; // slt = slti -  - func3 = 2
+                3'b011: alu_op = sltu; //  sltu = sltui - func3 = 3
+                3'b100: alu_op = Xor; // Xor = xori -   - func3 = 4
+                3'b101: begin // func3 = 5
+                    case (func7)
+                        7'b0000000 : alu_op = srl; // srl = srli - func7 = 0
+                        7'b0100000 : alu_op = sra; // sra = srai - func7 = 32
+                        default: alu_op = sra;
+                    endcase
+                end
+                3'b110 : alu_op = OR ; // or = ori - func3 = 6
+                3'b111 : alu_op = And ; // and = andi - func3 = 7
+                default: alu_op = OR ; 
+            endcase
+        end
+        default: alu_op = add ;
+    endcase
+end
+
+// I_type immediate selection
+// generation of "sel_bw_imm_rs2" signal - select between imm and rs2
+
+always @(*) begin
+    if( (opcode == 0000011) | (opcode == 0010011) ) begin
+        sel_bw_imm_rs2 = 1;
+    end
+    else begin
+        sel_bw_imm_rs2 = 0;
+    end
+end
+
+
     
 endmodule
