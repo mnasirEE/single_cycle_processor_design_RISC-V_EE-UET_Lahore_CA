@@ -1,4 +1,4 @@
-module mux_2x1 #(parameter data_width = 32;)
+module mux_2x1 #(parameter data_width = 32)
    ( input logic [data_width - 1:0] in0, in1,
    input logic sel,
    output logic [data_width-1:0] mux_out
