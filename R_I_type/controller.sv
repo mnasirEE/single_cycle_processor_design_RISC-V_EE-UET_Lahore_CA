@@ -129,10 +129,10 @@ end
 always @(*) begin
     // opcode = 3 for load op and 19 for arithmetic and logical op
     if( (opcode == 0000011) | (opcode == 0010011) ) begin 
-        sel_bw_imm_rs2 = 1;
+        sel_bw_imm_rs2 = 0;
     end
     else begin
-        sel_bw_imm_rs2 = 0;
+        sel_bw_imm_rs2 = 1;
     end
 end
 
