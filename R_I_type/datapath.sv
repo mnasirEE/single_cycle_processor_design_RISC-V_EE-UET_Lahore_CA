@@ -37,9 +37,15 @@ instruction_memory imem (.address(PC),
 
 logic [3:0] alu_operation;
 logic wr_enable;
+logic sel_imm;
+logic read_en;
+logic wrb_en;
 controller c1 (.instruction(instr_out), 
                 .alu_op(alu_operation), 
-                .regfile_write_enable(wr_enable));
+                .regfile_write_enable(wr_enable),
+                .sel_bw_imm_rs2(sel_imm),
+                .dmem_read_en(read_en),
+                .wr_back_sel(wrb_en));
 
 // decode
 
@@ -53,18 +59,44 @@ assign addr_rs2 = instr_out[24:20];
 reg_file r1 (.wr_addr(addr_dr), 
             .r_addr1(addr_rs1), 
             .r_addr2(addr_rs2), 
-            .wr_data (alu_out), 
+            .wr_data (wr_back_data), 
             .write_back_en(wr_enable),
             .clk(clk1),
             .r_data1 (rs1_data), 
             .r_data2 (rs2_data));
 
+logic [31:0] immediate ;
+imm_gene immg1 (.inst(instr_out), 
+                .imm_out(immediate));
+
+logic [31:0] mux_out1; 
+mux_2x1 m1 (.in0(immediate), 
+            .in1(rs2_data), 
+            .sel(sel_imm), 
+            .mux_out(mux_out1));
 // execute
 
 alu a1 (.operand_a(rs1_data), 
-        .operand_b(rs2_data), 
+        .operand_b(mux_out1), 
         .select_op(alu_operation), 
         .result_out (alu_out));
+
+// data memory 
+
+logic [31:0] rmem_data;
+
+data_memory (.clk(clk1),
+             .r_en(read_en), 
+             .data_in(rs2_data), 
+             .addr(alu_out), 
+             .data_out(rmem_data));
+// write back
+logic [31:0] wr_back_data;
+mux_2x1 m2 (.in0(rmem_data), 
+            .in1(alu_out), 
+            .sel(wrb_en), 
+            .mux_out(wr_back_data));
+
 
 
 // write back
