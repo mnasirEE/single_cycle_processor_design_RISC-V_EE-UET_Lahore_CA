@@ -4,7 +4,9 @@ module controller #(parameter instr_width = 32, alu_op_width = 4)
     ( input logic [instr_width - 1:0] instruction, // 32bit instruction - input port
     output logic [alu_op_width -1:0] alu_op, // alu operation selection
     output logic regfile_write_enable,       // write enable signal for regfile
-    output logic sel_bw_imm_rs2 // select between imm and rs2
+    output logic sel_bw_imm_rs2, // select between imm and rs2
+    output logic dmem_read_en, // data memory read enable signal for load instructions
+    output logic wr_back_sel // write back selection signal
     
 );
 // type of alu operation is selected by opcode, func3 and func7
@@ -125,7 +127,8 @@ end
 // generation of "sel_bw_imm_rs2" signal - select between imm and rs2
 
 always @(*) begin
-    if( (opcode == 0000011) | (opcode == 0010011) ) begin
+    // opcode = 3 for load op and 19 for arithmetic and logical op
+    if( (opcode == 0000011) | (opcode == 0010011) ) begin 
         sel_bw_imm_rs2 = 1;
     end
     else begin
@@ -133,6 +136,30 @@ always @(*) begin
     end
 end
 
+// I_type generating read signal to give data memory in order to read data 
+// from particular memory location
+
+always @(*) begin
+    // opcode = 3 for load operations
+    if ( (opcode == 0000011) ) begin
+        dmem_read_en = 1'b1;
+    end
+    else begin
+        dmem_read_en = 1'b0;
+    end
+end
+
+// I_type write back selection signal
+
+always @(*) begin
+    // opcode = 3 - 7 bits
+    if( (opcode = 7'b0000011) ) begin
+        wr_back_sel = 1'b0;
+    end
+    else begin
+        wr_back_sel = 1'b1;
+    end
+end
 
     
 endmodule
