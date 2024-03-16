@@ -3,7 +3,7 @@
 // data_memory (.clk(clk1),.wr_en(), .r_en(), .data_in(), .addr(), .data_out());
 module data_memory #(parameter addr_data_width = 32, memory_width = 8, memory_height = 2048 ;)
     (input wire clk,
-    input wire wr_en,
+    // input wire wr_en,
     input logic r_en,
     input logic [addr_data_width-1:0] data_in,
     input logic [addr_data_width-1:0] addr,
@@ -23,10 +23,10 @@ end
 always @(*) begin
     if (r_en) begin
         // suppose up stack
-        data_out[7:0] = data_memory[addr]; // 1st byte - LSB
-        data_out[15:8] = data_memory[addr + 1]; // 2nd byte
-        data_out[23:16] = data_memory[addr + 1]; // 3rd byte
-        data_out[31:24] = data_memory[addr + 1]; // 4th byte - MSB
+        data_out[7:0] = data_mem[addr]; // 1st byte - LSB
+        data_out[15:8] = data_mem[addr + 1]; // 2nd byte
+        data_out[23:16] = data_mem[addr + 1]; // 3rd byte
+        data_out[31:24] = data_mem[addr + 1]; // 4th byte - MSB
     end
 end
 
