@@ -3,7 +3,7 @@
 // data_memory (.clk(clk1),.wr_en(), .r_en(), .data_in(), .addr(), .data_out());
 module data_memory #(parameter addr_data_width = 32, memory_width = 8, memory_height = 2048)
     (input wire clk,
-    // input wire wr_en,
+    input wire wr_en,
     input logic r_en,
     input logic [addr_data_width-1:0] data_in,
     input logic [addr_data_width-1:0] addr,
@@ -20,12 +20,22 @@ assign data_mem[3] = 32'h00abcd00;
 //     $readmemh("read_from.txt", data_mem);
     
 // end
-
+// raeding data from memory
 always @(*) begin
 
     if (r_en) begin
         data_out = data_mem[addr];
     end
+    
+end
+
+// writing data to data memory
+
+always_ff @( posedge clk, posedge wr_en) begin : WritingData
+    case (wr_en)
+        1'b1: data_mem[addr] <= data_in;
+        default: data_out <= data_mem[addr]; // read data
+    endcase
     
 end
 
