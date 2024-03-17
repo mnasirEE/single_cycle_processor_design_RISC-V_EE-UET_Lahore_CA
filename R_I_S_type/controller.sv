@@ -6,7 +6,8 @@ module controller #(parameter instr_width = 32, alu_op_width = 4)
     output logic regfile_write_enable,       // write enable signal for regfile
     output logic sel_bw_imm_rs2, // select between imm and rs2
     output logic dmem_read_en, // data memory read enable signal for load instructions
-    output logic wr_back_sel // write back selection signal
+    output logic wr_back_sel, // write back selection signal
+    output logic dmem_write_en // data memory write enable for store operations
     
 );
 // type of alu operation is selected by opcode, func3 and func7
@@ -161,6 +162,32 @@ always @(*) begin
     else begin
         wr_back_sel = 1'b1;
     end
+end
+
+// S_type format for choosing operation
+
+always @(*) begin
+    // opcode = 35
+    case (opcode)
+        7'b0100011 : begin
+            case (func3) // 0, 1, 2
+                3'b000: alu_op = add; // address calculation - load byte
+                3'b001: alu_op = add; // address calculation - load half word
+                3'b010: alu_op = add; // address calculation - load word
+                default: alu_op = add;
+            endcase
+        end
+        default: alu_op = add;
+    endcase
+end
+
+// generating write enable signal
+
+always @(*) begin
+    case (opcode)
+        7'b0100011 : dmem_write_en = 1'b1;
+        default: dmem_write_en = 1'b0; 
+    endcase
 end
 
     
