@@ -11,6 +11,7 @@ reg [reg_data_width - 1:0] reg_file_16 [0:reg_depth-1];
 // bit reg_file_initialized = 0;
 initial begin
     reg_file_16[0] = 32'h0; // x0 = 0 hard wire
+    reg_file_16[1] = 32'h1;
     reg_file_16[3] = 32'h5;
     reg_file_16[4] = 32'h7;
 end

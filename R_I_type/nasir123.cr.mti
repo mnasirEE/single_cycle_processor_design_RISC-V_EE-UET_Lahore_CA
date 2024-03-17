@@ -1,0 +1,64 @@
+E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/program_counter.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/program_counter.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module program_counter
+
+Top level modules:
+	program_counter
+
+} {} {}} E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/datapath.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/datapath.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module datapath
+
+Top level modules:
+	datapath
+
+} {} {}} E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/mux_2x1.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/mux_2x1.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module mux_2x1
+
+Top level modules:
+	mux_2x1
+
+} {} {}} E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/controller.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/controller.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module controller
+
+Top level modules:
+	controller
+
+} {} {}} E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/reg_file.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/reg_file.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module reg_file
+
+Top level modules:
+	reg_file
+
+} {} {}} E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/imm_gene.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/imm_gene.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module imm_gene
+
+Top level modules:
+	imm_gene
+
+} {} {}} E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/instruction_memory.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/instruction_memory.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module instruction_memory
+
+Top level modules:
+	instruction_memory
+
+} {} {}} E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/data_memory.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/data_memory.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module data_memory
+
+Top level modules:
+	data_memory
+
+} {} {}} E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/alu.sv {1 {vlog -work work -vopt -sv -stats=none E:/github_repos/single_cycle_processor_design_RISC-V_EE-UET_Lahore_CA/R_I_type/alu.sv
+QuestaSim-64 vlog 2021.1 Compiler 2021.01 Jan 19 2021
+-- Compiling module alu
+
+Top level modules:
+	alu
+
+} {} {}}

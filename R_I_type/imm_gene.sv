@@ -11,7 +11,7 @@ always @(*) begin
     case (opcode)
         7'b0000011 : imm = inst[31:20];
         7'b0010011 : imm = inst[31:20];
-        default: 
+        default:  imm = inst[31:20]; 
     endcase
 end
 
@@ -21,9 +21,9 @@ always @(*) begin
     if (imm[11] == 0) begin
         imm_out[31:12] = 20'h00000;
     end
-    else begin
-        imm_out[31:12] = 20'bFFFFF;
-    end
+    else // begin
+        imm_out[31:12] = 20'hFFFFF;
+    // end
 end
      
 endmodule

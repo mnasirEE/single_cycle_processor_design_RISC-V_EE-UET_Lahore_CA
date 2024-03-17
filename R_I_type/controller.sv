@@ -80,6 +80,8 @@ always @ (*)
 always @(*) begin 
     case (opcode)
         7'b0110011: regfile_write_enable = 1'b1; // R_type
+        7'b0000011: regfile_write_enable = 1'b1; // I_type load instructions
+        7'b0010011: regfile_write_enable = 1'b1; // I_type logical and arithmetic instructions
         default: regfile_write_enable = 1'b0; // for not write back instructions
     endcase
 end
@@ -128,7 +130,7 @@ end
 
 always @(*) begin
     // opcode = 3 for load op and 19 for arithmetic and logical op
-    if( (opcode == 0000011) | (opcode == 0010011) ) begin 
+    if( (opcode == 7'b0000011) | (opcode == 7'b0010011) ) begin 
         sel_bw_imm_rs2 = 0;
     end
     else begin
@@ -141,7 +143,7 @@ end
 
 always @(*) begin
     // opcode = 3 for load operations
-    if ( (opcode == 0000011) ) begin
+    if ( (opcode == 7'b0000011) ) begin
         dmem_read_en = 1'b1;
     end
     else begin
@@ -153,7 +155,7 @@ end
 
 always @(*) begin
     // opcode = 3 - 7 bits
-    if( (opcode = 7'b0000011) ) begin
+    if( (opcode == 7'b0000011) ) begin
         wr_back_sel = 1'b0;
     end
     else begin

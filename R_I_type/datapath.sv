@@ -1,7 +1,8 @@
 module datapath #( parameter addr_data_width = 32)
     (output logic [addr_data_width - 1:0] PC,
     input logic reset1, clk1,
-    output logic [addr_data_width-1:0] alu_out
+    output logic [addr_data_width - 1:0] alu_out,
+    output logic [addr_data_width - 1:0] wr_back_data
 
 );
 
@@ -85,18 +86,17 @@ alu a1 (.operand_a(rs1_data),
 
 logic [31:0] rmem_data;
 
-data_memory (.clk(clk1),
+data_memory dm1 (.clk(clk1),
              .r_en(read_en), 
              .data_in(rs2_data), 
              .addr(alu_out), 
              .data_out(rmem_data));
 // write back
-logic [31:0] wr_back_data;
+// logic [31:0] wr_back_data;
 mux_2x1 m2 (.in0(rmem_data), 
             .in1(alu_out), 
             .sel(wrb_en), 
             .mux_out(wr_back_data));
-
 
 
 // write back
