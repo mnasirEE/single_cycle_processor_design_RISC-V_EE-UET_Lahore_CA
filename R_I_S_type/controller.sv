@@ -131,7 +131,7 @@ end
 
 always @(*) begin
     // opcode = 3 for load op and 19 for arithmetic and logical op
-    if( (opcode == 7'b0000011) | (opcode == 7'b0010011) ) begin 
+    if( (opcode == 7'b0000011) | (opcode == 7'b0010011) | (opcode == 7'b0100011) ) begin 
         sel_bw_imm_rs2 = 0;
     end
     else begin

@@ -41,12 +41,14 @@ logic wr_enable;
 logic sel_imm;
 logic read_en;
 logic wrb_en;
+logic write_en;
 controller c1 (.instruction(instr_out), 
                 .alu_op(alu_operation), 
                 .regfile_write_enable(wr_enable),
                 .sel_bw_imm_rs2(sel_imm),
                 .dmem_read_en(read_en),
-                .wr_back_sel(wrb_en));
+                .wr_back_sel(wrb_en),
+                .dmem_write_en(write_en));
 
 // decode
 
@@ -87,6 +89,7 @@ alu a1 (.operand_a(rs1_data),
 logic [31:0] rmem_data;
 
 data_memory dm1 (.clk(clk1),
+             .wr_en(write_en),
              .r_en(read_en), 
              .data_in(rs2_data), 
              .addr(alu_out), 
