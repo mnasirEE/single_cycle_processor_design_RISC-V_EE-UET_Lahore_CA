@@ -107,6 +107,18 @@ always @ (*)
                 default: alu_op = OR ; 
             endcase
         end
+
+        // S_type instructions
+        // S_type format for choosing operation
+        // opcode = 35
+        7'b0100011 : begin
+            case (func3) // 0, 1, 2
+                3'b000: alu_op = add; // address calculation - store byte
+                3'b001: alu_op = add; // address calculation - store half word
+                3'b010: alu_op = add; // address calculation - store word
+                default: alu_op = add;
+            endcase
+        end
         default: alu_op = add;
     endcase
 
@@ -120,7 +132,7 @@ always @(*) begin
     endcase
 end
 
-// Different always blocks will through error - so use same block for all instructions in
+// Different always blocks for selectiing alu operation will through error - so use same block for all instructions in
 // selecting type of operation 
 
 // always @(*) begin
@@ -200,20 +212,24 @@ end
 
 // S_type format for choosing operation
 
-always @(*) begin
-    // opcode = 35
-    case (opcode)
-        7'b0100011 : begin
-            case (func3) // 0, 1, 2
-                3'b000: alu_op = add; // address calculation - load byte
-                3'b001: alu_op = add; // address calculation - load half word
-                3'b010: alu_op = add; // address calculation - load word
-                default: alu_op = add;
-            endcase
-        end
-        default: alu_op = add;
-    endcase
-end
+// Different always blocks for selectiing alu operation will through error - so use same block for all instructions in
+// selecting type of operation 
+
+// always @(*) begin
+//     // opcode = 35
+//     case (opcode)
+//         // opcode = 35
+//         7'b0100011 : begin
+//             case (func3) // 0, 1, 2
+//                 3'b000: alu_op = add; // address calculation - store byte
+//                 3'b001: alu_op = add; // address calculation - store half word
+//                 3'b010: alu_op = add; // address calculation - store word
+//                 default: alu_op = add;
+//             endcase
+//         end
+//         default: alu_op = add;
+//     endcase
+// end
 
 // generating write enable signal
 
