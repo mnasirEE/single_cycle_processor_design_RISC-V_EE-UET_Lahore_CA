@@ -13,7 +13,10 @@ module data_memory #(parameter addr_data_width = 32, memory_width = 8, memory_he
 // creating 2kB data memory
 reg [31:0] data_mem [0:memory_height - 1];
 
-assign data_mem[3] = 32'h00abcd00;
+initial begin
+    data_mem[3] = 32'h00abcd00;
+end
+
 
 // always @(*) begin
 //     // reading data from text file using $readmemh built in function in system verilog
@@ -23,21 +26,24 @@ assign data_mem[3] = 32'h00abcd00;
 // raeding data from memory
 always @(*) begin
 
-    if (r_en) begin
-        data_out = data_mem[addr];
-    end
-    
+    case (r_en)
+        1'b1: data_out = data_mem[addr]; 
+    endcase  
+end
+
+always @(*) begin
+    case (wr_en)
+        1'b1: data_mem[addr] = data_in; 
+    endcase
 end
 
 // writing data to data memory
 
-always_ff @( posedge clk, posedge wr_en) begin : WritingData
-    case (wr_en)
-        1'b1: data_mem[addr] <= data_in;
-        default: data_out <= data_mem[addr]; // read data
-    endcase
-    
-end
+// always (*) begin
+//     if (wr_en) begin
+//         data_mem[addr] = data_in;
+//     end
+// end
 
 // always @(*) begin
 //     if (r_en) begin

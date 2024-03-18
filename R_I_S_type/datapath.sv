@@ -71,7 +71,7 @@ reg_file r1 (.wr_addr(addr_dr),
 logic [31:0] immediate ;
 logic [31:0] imm_out_s1;
 imm_gene immg1 (.inst(instr_out), 
-                .imm_out(immediate),
+                .imm_out_i(immediate),
                 .imm_out_s(imm_out_s1));
 
 logic [31:0] mux_out1; 

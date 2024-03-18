@@ -26,7 +26,8 @@ always @(*) begin
         7'b0000011 : imm = inst[31:20];
         7'b0010011 : imm = inst[31:20];
     // s_type
-        7'b0100011 : imm1 = inst[11:7], imm2 = inst[31:25];
+        7'b0100011 : imm1 = inst[11:7];
+        7'b0100011 : imm2 = inst[31:25];
         default:  imm = inst[31:20]; 
     endcase
 end
@@ -37,17 +38,17 @@ assign imm_s[11:5] = imm2;
 // assign imm_out_i[11:0] = imm;
 // sign extension
 always @(*) begin
-    if ( imm[11] == 1b'0) begin
+    if ( imm[11] == 0) begin
         imm_out_i[31:12] = 20'h00000;
     end
-    else // begin
+    else //begin
         imm_out_i[31:12] = 20'hFFFFF;
     // end
 end
 
 
 always @(*) begin
-    if (imm_s[0] == 1'b0) begin
+    if (imm_s[0] == 0) begin
         imm_out_s[31:12] = 20'h00000;
     end
     else begin
