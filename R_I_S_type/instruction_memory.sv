@@ -28,6 +28,9 @@ assign inst_mem[11] = 32'h0041b413;
 assign inst_mem[12] = 32'h0051e493;
 assign inst_mem[13] = 32'h0061f513;
 
+// S-type instruction - machine code - rs1 = x4, rs2 = x3, func3 = 3'b010 =2, imm = 5, opcode = 35
+assign inst_mem[14] = 32'h00322523;
+
 
 // initial begin
 //     $readmemh("read_instructions.txt", inst_mem);
