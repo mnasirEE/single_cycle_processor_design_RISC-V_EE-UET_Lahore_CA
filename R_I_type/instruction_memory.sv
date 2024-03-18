@@ -11,13 +11,13 @@ module instruction_memory #(parameter addr_ins_width = 32, memory_width = 32, me
 reg [memory_width - 1:0] inst_mem [0:memory_height -1];
 
 // R_type instructions machine encoding - rs1 = x3, rs2 = x4, rd = x5,6,7,8,9,10,11
-assign inst_mem[0] = 32'h004182b3;
-assign inst_mem[1] = 32'h40418333;
-assign inst_mem[2] = 32'h004193b3;
-assign inst_mem[3] = 32'h0041c433;
-assign inst_mem[4] = 32'h0041d4b3;
-assign inst_mem[5] = 32'h0041e533;
-assign inst_mem[6] = 32'h0041f5b3;
+// assign inst_mem[0] = 32'h004182b3;
+// assign inst_mem[1] = 32'h40418333;
+// assign inst_mem[2] = 32'h004193b3;
+// assign inst_mem[3] = 32'h0041c433;
+// assign inst_mem[4] = 32'h0041d4b3;
+// assign inst_mem[5] = 32'h0041e533;
+// assign inst_mem[6] = 32'h0041f5b3;
 
 // I_type instructions Machine encoding
 assign inst_mem[7] = 32'h0020A103;
