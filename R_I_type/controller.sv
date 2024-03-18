@@ -44,7 +44,7 @@ assign    And = 4'b1001;
 
 // generating alu_op signals 
 // R_type
-always @ (*)  
+always @ (*)  begin 
     case (opcode)
         7'b0110011: begin
             case (func3)
@@ -68,29 +68,11 @@ always @ (*)
                 end
                 3'b110: alu_op = OR; // or
                 3'b111: alu_op = And; // and
-                
-                
                 default: alu_op = OR;
             endcase
         end
-        default: alu_op = add;
-    endcase
-
-
-always @(*) begin 
-    case (opcode)
-        7'b0110011: regfile_write_enable = 1'b1; // R_type
-        7'b0000011: regfile_write_enable = 1'b1; // I_type load instructions
-        7'b0010011: regfile_write_enable = 1'b1; // I_type logical and arithmetic instructions
-        default: regfile_write_enable = 1'b0; // for not write back instructions
-    endcase
-end
-
-// I_type - generating alu_op signals 
-// for load instructions alu op = addi = add
-always @(*) begin
-    case (opcode)
-    // load instructions - 5
+        // I_type - generating alu_op signals 
+        // for load instructions alu op = addi = add
         7'b0000011 : begin
             case (func3)
                 3'b000: alu_op = add; // addi - load byte - lb -func3 = 0
@@ -121,9 +103,60 @@ always @(*) begin
                 default: alu_op = OR ; 
             endcase
         end
-        default: alu_op = add ;
+        default: alu_op = sub;
     endcase
 end
+
+always @(*) begin 
+    case (opcode)
+        7'b0110011: regfile_write_enable = 1'b1; // R_type
+        7'b0000011: regfile_write_enable = 1'b1; // I_type load instructions
+        7'b0010011: regfile_write_enable = 1'b1; // I_type logical and arithmetic instructions
+        default: regfile_write_enable = 1'b0; // for not write back instructions
+    endcase
+end
+
+
+
+// Different always blocks will through error - so use same block for all instructions in
+// selecting type of operation 
+
+// always @(*) begin
+//     case (opcode)
+//     // load instructions - 5
+//         7'b0000011 : begin
+//             case (func3)
+//                 3'b000: alu_op = add; // addi - load byte - lb -func3 = 0
+//                 3'b001: alu_op = add; // addi - load half word - lh - func3 = 1
+//                 3'b010: alu_op = add; // addi - load word - lw - func3 = 2
+//                 3'b100: alu_op = add; // addi - load byte unsigned  - lbu - func3 = 4
+//                 3'b101: alu_op = add; // addi - load halfword unsigned - lhu -func3 = 5
+//                 default: alu_op = add; // addi load word
+//             endcase
+//         end
+//     // arithmetic and logical instructions - 9
+//         7'b0010011 : begin
+//             case (func3)
+//                 3'b000: alu_op = add; // add = addi   -func3 = 0
+//                 3'b001: alu_op = sll; //sll = slli  - func3 = 1
+//                 3'b010: alu_op = slt; // slt = slti -  - func3 = 2
+//                 3'b011: alu_op = sltu; //  sltu = sltui - func3 = 3
+//                 3'b100: alu_op = Xor; // Xor = xori -   - func3 = 4
+//                 3'b101: begin // func3 = 5
+//                     case (func7)
+//                         7'b0000000 : alu_op = srl; // srl = srli - func7 = 0
+//                         7'b0100000 : alu_op = sra; // sra = srai - func7 = 32
+//                         default: alu_op = sra;
+//                     endcase
+//                 end
+//                 3'b110 : alu_op = OR ; // or = ori - func3 = 6
+//                 3'b111 : alu_op = And ; // and = andi - func3 = 7
+//                 default: alu_op = OR ; 
+//             endcase
+//         end
+//         default: alu_op = add ;
+//     endcase
+// end
 
 // I_type immediate selection
 // generation of "sel_bw_imm_rs2" signal - select between imm and rs2
