@@ -30,6 +30,7 @@ assign inst_mem[13] = 32'h0061f513;
 
 // S-type instruction - machine code - rs1 = x4, rs2 = x3, func3 = 3'b010 =2, imm = 5, opcode = 35
 assign inst_mem[14] = 32'h00322523;
+// assign inst_mem[2] = 32'h0040afa3;
 
 
 // initial begin

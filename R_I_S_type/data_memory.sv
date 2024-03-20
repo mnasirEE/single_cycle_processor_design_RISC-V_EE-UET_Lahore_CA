@@ -24,16 +24,17 @@ end
     
 // end
 // raeding data from memory
-always @(*) begin
+always @(negedge clk) begin
 
-    case (r_en)
-        1'b1: data_out = data_mem[addr]; 
-    endcase  
+    if(wr_en) begin
+        data_mem[addr] <= data_in;
+        
+    end  
 end
 
 always @(*) begin
-    case (wr_en)
-        1'b1: data_mem[addr] = data_in; 
+    case (r_en)
+        1'b1: data_out = data_mem[addr]; 
     endcase
 end
 

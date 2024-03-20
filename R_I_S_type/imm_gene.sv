@@ -1,14 +1,16 @@
 module imm_gene (
     input logic [31:0] inst,
-    output logic [31:0] imm_out_i,
-    output logic [31:0] imm_out_s
+    output logic [31:0] imm
 );
+
+logic [31:0] imm_out_i;
+logic [31:0] imm_out_s;
 
 logic [6:0] opcode;
 assign opcode = inst[6:0];
 
 // for i_type
-logic [11:0] imm;
+// logic [11:0] imm;
 
 // for s_type
 logic [11:0] imm_s;
@@ -26,14 +28,23 @@ always @(*) begin
         7'b0000011 : imm = inst[31:20];
         7'b0010011 : imm = inst[31:20];
     // s_type
-        7'b0100011 : imm1 = inst[11:7];
-        7'b0100011 : imm2 = inst[31:25];
+        // 7'b0100011 : imm1 = inst[11:7];
+        // 7'b0100011 : imm2 = inst[31:25];
         default:  imm = inst[31:20]; 
     endcase
 end
 
+always @(*) begin
+    if (opcode == 7'b0100011) begin
+        imm1 = inst[11:7];
+        imm2 = inst[31:25];
+    end
+end
+
+assign imm_out_i[11:0] = imm;
 assign imm_s[4:0] = imm1;
 assign imm_s[11:5] = imm2;
+assign imm_out_s[11:0] = imm_s;
 
 // assign imm_out_i[11:0] = imm;
 // sign extension
@@ -55,6 +66,17 @@ always @(*) begin
         imm_out_s[31:12] = 20'hFFFFF;
     end
 end
+
+always @(*) begin
+    case (opcode)
+    7'b0000011: imm = imm_out_i;
+    7'b0010011 : imm = imm_out_i;
+    7'b0100011 : imm = imm_out_s;
+    // default: 
+endcase
+    
+end
+
 
      
 endmodule

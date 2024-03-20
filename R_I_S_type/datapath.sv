@@ -69,10 +69,9 @@ reg_file r1 (.wr_addr(addr_dr),
             .r_data2 (rs2_data));
 
 logic [31:0] immediate ;
-logic [31:0] imm_out_s1;
+
 imm_gene immg1 (.inst(instr_out), 
-                .imm_out_i(immediate),
-                .imm_out_s(imm_out_s1));
+                .imm(immediate));
 
 logic [31:0] mux_out1; 
 mux_2x1 m1 (.in0(immediate), 
