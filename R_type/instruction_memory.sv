@@ -7,7 +7,7 @@ module instruction_memory #(parameter addr_ins_width = 32, memory_width = 32, me
 
     
 );
-
+// reg [31:0] mem [0:511]
 reg [memory_width - 1:0] inst_mem [0:memory_height -1];
 
 assign inst_mem[0] = 32'h004182b3;

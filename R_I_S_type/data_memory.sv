@@ -24,7 +24,7 @@ end
     
 // end
 // raeding data from memory
-always @(negedge clk) begin
+always_ff @(negedge clk) begin
 
     if(wr_en) begin
         data_mem[addr] <= data_in;

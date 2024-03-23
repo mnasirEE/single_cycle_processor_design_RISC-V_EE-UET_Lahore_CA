@@ -1,10 +1,10 @@
 module reg_file #(parameter reg_addr_width = 5, reg_data_width = 32, reg_depth = 32)
     ( input logic [reg_addr_width -1:0] wr_addr, r_addr1, r_addr2,
-    input logic [reg_data_width - 1:0] wr_data,
+    input logic [31:0] wr_data,
     input logic write_back_en, clk,
     output logic [reg_data_width - 1:0] r_data1, r_data2
 );
-
+// reg [31:0] reg_file_32 [0:31]
 reg [reg_data_width - 1:0] reg_file_16 [0:reg_depth-1];
 
 // Flag to indicate if register file has been initialized
@@ -23,7 +23,7 @@ always @(*) begin
     r_data2 = reg_file_16[r_addr2];
 end
 
-always @(negedge clk, posedge write_back_en) begin
+always_ff @(negedge clk, posedge write_back_en) begin
     if (write_back_en) begin
         reg_file_16[wr_addr] <= wr_data;
     end
