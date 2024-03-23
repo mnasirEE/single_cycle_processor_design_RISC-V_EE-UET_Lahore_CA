@@ -24,7 +24,7 @@ always @(*) begin
     r_data2 = reg_file_16[r_addr2];
 end
 
-always @(negedge clk, posedge write_back_en) begin
+always_ff @(negedge clk, posedge write_back_en) begin
     if (write_back_en) begin
         reg_file_16[wr_addr] <= wr_data;
     end
