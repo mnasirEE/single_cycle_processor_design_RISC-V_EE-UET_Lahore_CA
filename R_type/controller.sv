@@ -1,10 +1,10 @@
 
 // controller c1 (.instruction(), .alu_op(), .regfile_write_enable());
-module controller #(parameter instr_width = 32, alu_op_width = 4)
-    ( input logic [instr_width - 1:0] instruction,
+module controller #(
+    parameter instr_width = 32, alu_op_width = 4
+) ( input logic [instr_width - 1:0] instruction,
     output logic [alu_op_width -1:0] alu_op,
-    output logic regfile_write_enable
-    
+    output logic regfile_write_enable   
 );
 
 logic [6:0] opcode;
@@ -68,6 +68,7 @@ always @ (*)
                 default: alu_op = OR;
             endcase
         end
+        
         default: alu_op = add;
     endcase
 
